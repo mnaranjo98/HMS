@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesma Sports — Football Representation</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --cyan: #20D6FF;
+    --cyan-dim: rgba(32,214,255,0.15);
+    --cyan-glow: rgba(32,214,255,0.4);
+    --bg: #0B0B0B;
+    --bg2: #141414;
+    --bg3: #2A2A2A;
+    --text: #F5F5F5;
+    --text-muted: #BDBDBD;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+  }
+  h1,h2,h3,.bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.03em; }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* NAVBAR */
+  #navbar {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    height: 80px;
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(32,214,255,0.08);
+    transition: transform 0.35s ease, background 0.3s;
+    display: flex; align-items: center;
+  }
+  #navbar.hide { transform: translateY(-100%); }
+  #navbar.scrolled { background: rgba(11,11,11,0.98); }
+  .nav-inner {
+    max-width:1400px; margin:0 auto; width:100%;
+    padding: 0 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo {
+    height:52px; width:auto;
+    object-fit: contain; object-position: left center;
+    flex-shrink: 0;
+  }
+  .nav-logo-text {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:26px; letter-spacing:0.1em;
+    color: var(--text);
+  }
+  .nav-logo-text span { color: var(--cyan); }
+  .nav-links { display:flex; align-items:center; gap:36px; }
+  .nav-links a {
+    color: var(--text-muted); font-size:13px; font-weight:500;
+    text-transform:uppercase; letter-spacing:0.12em;
+    text-decoration:none; transition:color 0.2s;
+    position:relative;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+    background: var(--cyan); transform:scaleX(0); transition:transform 0.25s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { transform:scaleX(1); }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .lang-btn {
+    background: transparent; border:1px solid var(--bg3);
+    color: var(--text-muted); font-size:12px; font-weight:600;
+    letter-spacing:0.1em; padding:6px 12px; border-radius:4px;
+    cursor:pointer; transition:all 0.2s; font-family:'Manrope',sans-serif;
+  }
+  .lang-btn:hover { border-color:var(--cyan); color:var(--cyan); }
+  .nav-cta {
+    background: var(--cyan); color:#000;
+    font-size:12px; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; padding:10px 22px; border-radius:4px;
+    text-decoration:none; transition:all 0.2s;
+  }
+  .nav-cta:hover { background:#fff; transform:translateY(-1px); }
+  .hamburger {
+    display:none; flex-direction:column; gap:5px; cursor:pointer;
+    background:none; border:none; padding:4px;
+  }
+  .hamburger span {
+    display:block; width:24px; height:2px;
+    background:var(--text); border-radius:2px; transition:all 0.3s;
+  }
+
+  /* MOBILE DRAWER */
+  #drawer {
+    position:fixed; top:0; right:-100%; width:280px; height:100vh;
+    background: var(--bg2); z-index:200;
+    border-left:1px solid var(--bg3);
+    transition: right 0.35s ease;
+    display:flex; flex-direction:column; padding:32px 24px;
+  }
+  #drawer.open { right:0; }
+  #drawer-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.7);
+    z-index:199; display:none; backdrop-filter:blur(4px);
+  }
+  #drawer-overlay.open { display:block; }
+  .drawer-links { display:flex; flex-direction:column; gap:24px; margin-top:48px; }
+  .drawer-links a {
+    color:var(--text); font-size:20px; font-family:'Bebas Neue',sans-serif;
+    letter-spacing:0.1em; text-decoration:none;
+    border-bottom:1px solid var(--bg3); padding-bottom:16px;
+    transition:color 0.2s;
+  }
+  .drawer-links a:hover { color:var(--cyan); }
+
+  /* HERO */
+  #hero {
+    position:relative; min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; padding-top:80px;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, #0B0B0B 0%, #141414 50%, #0f1a1f 100%);
+  }
+  .hero-grid-lines {
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(32,214,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(32,214,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-accent-line {
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+  .hero-content {
+    position:relative; z-index:2;
+    max-width:1400px; width:100%; margin:0 auto;
+    padding:0 32px;
+    display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+  }
+  .hero-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid rgba(32,214,255,0.3); border-radius:3px;
+    padding:6px 14px; margin-bottom:24px;
+    font-size:11px; font-weight:700; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--cyan);
+  }
+  .hero-tag::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--cyan); animation:pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+  .hero-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size: clamp(56px, 8vw, 110px);
+    line-height:0.92; letter-spacing:0.02em;
+    margin-bottom:24px;
+  }
+  .hero-title .cyan { color: var(--cyan); }
+  .hero-subtitle {
+    font-size:15px; color:var(--text-muted); line-height:1.7;
+    max-width:480px; margin-bottom:40px; font-weight:400;
+  }
+  .hero-btns { display:flex; gap:16px; flex-wrap:wrap; }
+  .btn-primary {
+    background:var(--cyan); color:#000;
+    font-weight:700; font-size:13px; letter-spacing:0.12em;
+    text-transform:uppercase; padding:14px 32px; border-radius:4px;
+    text-decoration:none; transition:all 0.25s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary:hover { background:#fff; transform:translateY(-2px); box-shadow:0 8px 24px rgba(32,214,255,0.3); }
+  .btn-secondary {
+    background:transparent; color:var(--text);
+    border:1px solid var(--bg3);
+    font-weight:600; font-size:13px; letter-spacing:0.12em;
+    text-transform:uppercase; padding:14px 32px; border-radius:4px;
+    text-decoration:none; transition:all 0.25s;
+  }
+  .btn-secondary:hover { border-color:var(--cyan); color:var(--cyan); transform:translateY(-2px); }
+  .hero-stats {
+    display:flex; gap:48px; margin-top:56px;
+    border-top:1px solid var(--bg3); padding-top:40px;
+  }
+  .stat-num {
+    font-family:'Bebas Neue',sans-serif; font-size:48px;
+    color:var(--cyan); line-height:1;
+  }
+  .stat-label { font-size:11px; color:var(--text-muted); letter-spacing:0.15em; text-transform:uppercase; margin-top:4px; }
+
+  /* HERO PLAYER CARDS */
+  .hero-players {
+    display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    position:relative;
+  }
+  .hero-players::before {
+    content:''; position:absolute;
+    top:-40px; right:-40px; width:200px; height:200px;
+    background: radial-gradient(circle, rgba(32,214,255,0.08) 0%, transparent 70%);
+    border-radius:50%; pointer-events:none;
+  }
+  .hero-player-card {
+    background: var(--bg2);
+    border:1px solid var(--bg3);
+    border-radius:8px; overflow:hidden;
+    position:relative; cursor:pointer;
+    transition:all 0.3s ease;
+    aspect-ratio: 3/4;
+  }
+  .hero-player-card:first-child { grid-column:1/-1; aspect-ratio:16/7; }
+  .hero-player-card:hover { border-color:var(--cyan); transform:translateY(-4px); box-shadow:0 16px 40px rgba(32,214,255,0.15); }
+  .hero-player-card img {
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(30%); transition:filter 0.3s;
+  }
+  .hero-player-card:hover img { filter:grayscale(0%); }
+  .hero-player-overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  }
+  .hero-player-info {
+    position:absolute; bottom:0; left:0; right:0; padding:16px;
+  }
+  .hero-player-pos {
+    font-size:10px; color:var(--cyan); font-weight:700;
+    letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px;
+  }
+  .hero-player-name {
+    font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:0.05em; line-height:1;
+  }
+  .hero-player-club { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+  /* PLACEHOLDER for images */
+  .img-placeholder {
+    width:100%; height:100%;
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; color:var(--text-muted);
+  }
+  .img-placeholder i { font-size:32px; color:var(--bg3); }
+  .img-placeholder span { font-size:11px; letter-spacing:0.1em; }
+
+  /* SECTIONS COMMON */
+  section { position:relative; z-index:2; }
+  .section-inner { max-width:1400px; margin:0 auto; padding:0 32px; }
+  .section-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:11px; font-weight:700; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--cyan); margin-bottom:20px;
+  }
+  .section-tag::before { content:'//'; opacity:0.5; }
+  .section-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height:0.95; letter-spacing:0.02em; margin-bottom:16px;
+  }
+  .section-subtitle { font-size:15px; color:var(--text-muted); line-height:1.6; max-width:560px; }
+
+  /* FEATURED PLAYERS */
+  #players { padding:120px 0; background: var(--bg); }
+  .players-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px; }
+  .players-grid {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:16px;
+  }
+  .player-card {
+    background:var(--bg2); border:1px solid var(--bg3);
+    border-radius:10px; overflow:hidden;
+    position:relative; cursor:pointer;
+    transition:all 0.35s ease;
+    aspect-ratio:2/3;
+  }
+  .player-card:hover { border-color:var(--cyan); transform:translateY(-6px); box-shadow:0 20px 50px rgba(32,214,255,0.2); }
+  .player-card img { width:100%; height:100%; object-fit:cover; filter:grayscale(20%); transition:filter 0.4s; }
+  .player-card:hover img { filter:grayscale(0%); }
+  .player-card-overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    transition:opacity 0.3s;
+  }
+  .player-card-body {
+    position:absolute; bottom:0; left:0; right:0; padding:20px 16px;
+  }
+  .player-card-nation {
+    display:flex; align-items:center; gap:6px;
+    font-size:10px; color:var(--text-muted); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px;
+  }
+  .player-card-pos {
+    font-size:10px; color:var(--cyan); font-weight:700;
+    letter-spacing:0.18em; text-transform:uppercase; margin-bottom:6px;
+  }
+  .player-card-name {
+    font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:0.04em; line-height:1;
+  }
+  .player-card-club { font-size:12px; color:var(--text-muted); margin-top:8px; }
+  .player-card-age {
+    position:absolute; top:14px; right:14px;
+    background:rgba(0,0,0,0.7); border:1px solid var(--bg3);
+    border-radius:4px; padding:4px 8px;
+    font-size:11px; font-weight:700; color:var(--text-muted);
+  }
+  .player-card-value {
+    position:absolute; top:14px; left:14px;
+    background:rgba(32,214,255,0.15); border:1px solid rgba(32,214,255,0.3);
+    border-radius:4px; padding:4px 8px;
+    font-size:11px; font-weight:700; color:var(--cyan);
+  }
+  .player-view-btn {
+    display:none; position:absolute; bottom:16px; right:16px;
+    background:var(--cyan); color:#000;
+    font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    padding:6px 14px; border-radius:3px; text-decoration:none;
+  }
+  .player-card:hover .player-view-btn { display:block; }
+
+  /* ABOUT SECTION */
+  #about { padding:120px 0; background:var(--bg2); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+  .about-visual {
+    position:relative; height:560px;
+  }
+  .about-main-img {
+    position:absolute; inset:0;
+    background:var(--bg3); border-radius:12px; overflow:hidden;
+    border:1px solid var(--bg3);
+  }
+  .about-main-img img { width:100%; height:100%; object-fit:cover; filter:grayscale(40%); }
+  .about-overlay { position:absolute; inset:0; background:linear-gradient(135deg, rgba(32,214,255,0.05) 0%, transparent 60%); border-radius:12px; }
+  .about-badge {
+    position:absolute; bottom:32px; left:32px;
+    background:rgba(11,11,11,0.95); border:1px solid var(--cyan);
+    border-radius:8px; padding:20px 24px;
+    backdrop-filter:blur(8px);
+  }
+  .about-badge-num { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--cyan); line-height:1; }
+  .about-badge-text { font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.15em; margin-top:4px; }
+  .about-cyan-line {
+    position:absolute; top:40px; right:-20px; width:3px; height:120px;
+    background: linear-gradient(to bottom, transparent, var(--cyan), transparent);
+  }
+  .about-text { }
+  .about-body { font-size:16px; color:var(--text-muted); line-height:1.8; margin-bottom:32px; }
+  .about-features { display:flex; flex-direction:column; gap:20px; margin-bottom:40px; }
+  .about-feature {
+    display:flex; gap:16px; align-items:flex-start;
+    padding:20px; background:var(--bg); border-radius:8px;
+    border:1px solid var(--bg3); transition:border-color 0.2s;
+  }
+  .about-feature:hover { border-color:rgba(32,214,255,0.3); }
+  .about-feature-icon {
+    width:40px; height:40px; border-radius:6px;
+    background:var(--cyan-dim); border:1px solid rgba(32,214,255,0.2);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cyan); font-size:16px; flex-shrink:0;
+  }
+  .about-feature-title { font-weight:700; font-size:14px; margin-bottom:4px; }
+  .about-feature-desc { font-size:13px; color:var(--text-muted); line-height:1.5; }
+
+  /* SERVICES */
+  #services { padding:120px 0; background:var(--bg); }
+  .services-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:64px; }
+  .service-card {
+    background:var(--bg2); border:1px solid var(--bg3);
+    border-radius:10px; padding:32px 28px;
+    transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .service-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:var(--cyan); transform:scaleX(0); transition:transform 0.3s; transform-origin:left;
+  }
+  .service-card:hover::before { transform:scaleX(1); }
+  .service-card:hover { border-color:rgba(32,214,255,0.2); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.4); }
+  .service-icon {
+    width:52px; height:52px; border-radius:8px;
+    background:var(--cyan-dim); border:1px solid rgba(32,214,255,0.2);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cyan); font-size:22px; margin-bottom:24px;
+  }
+  .service-num {
+    position:absolute; top:24px; right:24px;
+    font-family:'Bebas Neue',sans-serif; font-size:64px;
+    color:rgba(255,255,255,0.03); line-height:1;
+  }
+  .service-title { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:0.03em; margin-bottom:12px; }
+  .service-desc { font-size:13px; color:var(--text-muted); line-height:1.65; }
+
+  /* ROSTER SECTION */
+  #roster { padding:120px 0; background:var(--bg2); }
+  .roster-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:48px; }
+  .roster-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:40px; }
+  .filter-btn {
+    background:transparent; border:1px solid var(--bg3);
+    color:var(--text-muted); font-size:11px; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase;
+    padding:8px 18px; border-radius:4px; cursor:pointer;
+    transition:all 0.2s; font-family:'Manrope',sans-serif;
+  }
+  .filter-btn:hover, .filter-btn.active { background:var(--cyan); border-color:var(--cyan); color:#000; }
+  .roster-table {
+    width:100%; border-collapse:collapse;
+  }
+  .roster-table th {
+    font-size:11px; font-weight:700; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--text-muted);
+    padding:12px 16px; text-align:left;
+    border-bottom:1px solid var(--bg3);
+  }
+  .roster-table td {
+    padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04);
+    font-size:13px; color:var(--text-muted);
+    transition:background 0.2s;
+  }
+  .roster-table tr { transition:background 0.2s; }
+  .roster-table tr:hover td { background:rgba(32,214,255,0.04); color:var(--text); }
+  .roster-name-cell { display:flex; align-items:center; gap:12px; }
+  .roster-avatar {
+    width:40px; height:40px; border-radius:50%;
+    background:var(--bg3); border:1px solid var(--bg3);
+    overflow:hidden; flex-shrink:0;
+  }
+  .roster-avatar img { width:100%; height:100%; object-fit:cover; }
+  .roster-player-name { font-weight:700; color:var(--text); font-size:14px; }
+  .roster-player-pos { font-size:11px; color:var(--text-muted); margin-top:2px; }
+  .pos-badge {
+    font-size:10px; font-weight:700; letter-spacing:0.12em;
+    text-transform:uppercase; padding:3px 8px; border-radius:3px;
+    background:var(--cyan-dim); color:var(--cyan);
+    border:1px solid rgba(32,214,255,0.2);
+    white-space:nowrap;
+  }
+  .value-cell { color:var(--cyan); font-weight:700; }
+  .roster-link {
+    color:var(--text-muted); text-decoration:none; font-size:12px;
+    font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    transition:color 0.2s;
+  }
+  .roster-link:hover { color:var(--cyan); }
+
+  /* NEWS */
+  #news { padding:120px 0; background:var(--bg); }
+  .news-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-top:64px; }
+  .news-card {
+    background:var(--bg2); border:1px solid var(--bg3);
+    border-radius:10px; overflow:hidden;
+    transition:all 0.3s; cursor:pointer;
+  }
+  .news-card:hover { border-color:rgba(32,214,255,0.3); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.4); }
+  .news-img { height:220px; background:var(--bg3); position:relative; overflow:hidden; }
+  .news-img img { width:100%; height:100%; object-fit:cover; filter:grayscale(30%); transition:all 0.4s; }
+  .news-card:hover .news-img img { filter:grayscale(0%); transform:scale(1.03); }
+  .news-category {
+    position:absolute; top:14px; left:14px;
+    background:var(--cyan); color:#000;
+    font-size:10px; font-weight:700; letter-spacing:0.15em;
+    text-transform:uppercase; padding:4px 10px; border-radius:3px;
+  }
+  .news-body { padding:24px; }
+  .news-date { font-size:11px; color:var(--text-muted); letter-spacing:0.1em; margin-bottom:12px; }
+  .news-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.03em; line-height:1.1; margin-bottom:12px; }
+  .news-excerpt { font-size:13px; color:var(--text-muted); line-height:1.6; }
+
+  /* CTA */
+  #cta {
+    padding:120px 0; position:relative;
+    background: linear-gradient(135deg, #0d1a1f 0%, #0B0B0B 50%, #091014 100%);
+    overflow:hidden;
+  }
+  #cta::before {
+    content:''; position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:600px; height:600px;
+    background: radial-gradient(circle, rgba(32,214,255,0.06) 0%, transparent 70%);
+    border-radius:50%; pointer-events:none;
+  }
+  .cta-inner { text-align:center; max-width:700px; margin:0 auto; position:relative; z-index:1; }
+  .cta-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(48px,8vw,100px); line-height:0.92; letter-spacing:0.02em;
+    margin-bottom:24px;
+  }
+  .cta-title .cyan { color:var(--cyan); }
+  .cta-sub { font-size:16px; color:var(--text-muted); line-height:1.7; margin-bottom:48px; }
+  .cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .btn-wa {
+    background:#25D366; color:#fff;
+    font-weight:700; font-size:13px; letter-spacing:0.12em;
+    text-transform:uppercase; padding:16px 36px; border-radius:4px;
+    text-decoration:none; transition:all 0.25s; display:inline-flex; align-items:center; gap:10px;
+  }
+  .btn-wa:hover { background:#1ebe5a; transform:translateY(-2px); box-shadow:0 8px 24px rgba(37,211,102,0.3); }
+  .cta-perks { display:flex; gap:48px; justify-content:center; margin-top:56px; flex-wrap:wrap; }
+  .cta-perk { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); }
+  .cta-perk i { color:var(--cyan); font-size:14px; }
+
+  /* FOOTER */
+  footer {
+    background:var(--bg); border-top:1px solid var(--bg3);
+    padding:64px 0 40px;
+    position:relative; z-index:2;
+  }
+  .footer-inner { max-width:1400px; margin:0 auto; padding:0 32px; }
+  .footer-top { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+  .footer-brand-name {
+    font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:0.1em; margin-bottom:12px;
+  }
+  .footer-brand-name span { color:var(--cyan); }
+  .footer-tagline { font-size:13px; color:var(--text-muted); line-height:1.6; max-width:280px; margin-bottom:24px; }
+  .footer-social { display:flex; gap:12px; }
+  .social-btn {
+    width:38px; height:38px; border-radius:6px;
+    background:var(--bg2); border:1px solid var(--bg3);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-muted); font-size:15px; text-decoration:none;
+    transition:all 0.2s;
+  }
+  .social-btn:hover { border-color:var(--cyan); color:var(--cyan); }
+  .footer-col-title {
+    font-size:11px; font-weight:700; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--text); margin-bottom:20px;
+  }
+  .footer-links { display:flex; flex-direction:column; gap:12px; }
+  .footer-links a {
+    font-size:13px; color:var(--text-muted); text-decoration:none;
+    transition:color 0.2s;
+  }
+  .footer-links a:hover { color:var(--cyan); }
+  .footer-bottom {
+    border-top:1px solid var(--bg3); padding-top:32px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .footer-copy { font-size:12px; color:var(--text-muted); }
+  .footer-line { color:rgba(32,214,255,0.2); }
+
+  /* FLOATING WA BUTTON */
+  #wa-float {
+    position:fixed; bottom:24px; right:24px; z-index:100;
+    background:#25D366; color:#fff;
+    padding:14px 22px; border-radius:50px;
+    display:flex; align-items:center; gap:10px;
+    font-weight:700; font-size:13px; letter-spacing:0.06em;
+    text-decoration:none;
+    box-shadow:0 8px 32px rgba(37,211,102,0.35);
+    transition:all 0.25s;
+  }
+  #wa-float:hover { transform:scale(1.04); box-shadow:0 12px 40px rgba(37,211,102,0.45); }
+  #wa-float i { font-size:18px; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity:0; transform:translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* DIVIDER */
+  .cyan-divider {
+    width:60px; height:3px; background:var(--cyan); margin-bottom:32px;
+    border-radius:2px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width:1100px) {
+    .players-grid { grid-template-columns:repeat(3,1fr); }
+    .services-grid { grid-template-columns:repeat(2,1fr); }
+    .footer-top { grid-template-columns:1fr 1fr; }
+    .hero-content { grid-template-columns:1fr; gap:48px; }
+    .hero-players { display:none; }
+    .news-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:768px) {
+    .nav-links, .nav-right { display:none; }
+    .hamburger { display:flex; }
+    .players-grid { grid-template-columns:repeat(2,1fr); }
+    .about-grid { grid-template-columns:1fr; }
+    .about-visual { height:320px; }
+    .services-grid { grid-template-columns:1fr; }
+    .news-grid { grid-template-columns:1fr; }
+    .hero-stats { flex-direction:column; gap:24px; }
+    .hero-btns { flex-direction:column; }
+    .btn-primary,.btn-secondary,.btn-wa { text-align:center; justify-content:center; }
+    .footer-top { grid-template-columns:1fr; gap:32px; }
+    .footer-bottom { flex-direction:column; gap:16px; text-align:center; }
+    .roster-filters { display:none; }
+    .players-header { flex-direction:column; gap:20px; align-items:flex-start; }
+    .roster-header { flex-direction:column; gap:20px; align-items:flex-start; }
+    .section-inner { padding:0 20px; }
+    .cta-perks { gap:24px; flex-direction:column; align-items:center; }
+  }
+  @media (max-width:480px) {
+    .players-grid { grid-template-columns:1fr; }
+  }
+
+  /* Transfer Announcement Card */
+  .transfer-card {
+    background:var(--bg2); border:1px solid var(--bg3);
+    border-radius:10px; padding:28px;
+    display:flex; align-items:center; gap:24px;
+    transition:all 0.3s; margin-bottom:12px;
+  }
+  .transfer-card:hover { border-color:rgba(32,214,255,0.3); }
+  .transfer-icon { font-size:28px; color:var(--cyan); width:48px; flex-shrink:0; text-align:center; }
+  .transfer-text { flex:1; }
+  .transfer-label { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--cyan); margin-bottom:6px; }
+  .transfer-headline { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:0.03em; }
+  .transfer-sub { font-size:12px; color:var(--text-muted); margin-top:4px; }
+  .transfer-date { font-size:11px; color:var(--text-muted); white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo-text">HESMA <span>SPORTS</span></div>
+    <div class="nav-links">
+      <a href="#players" data-en="Players" data-es="Jugadores">Players</a>
+      <a href="#about" data-en="About" data-es="Nosotros">About</a>
+      <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+      <a href="#roster" data-en="Roster" data-es="Plantel">Roster</a>
+      <a href="#news" data-en="News" data-es="Noticias">News</a>
+    </div>
+    <div class="nav-right">
+      <button class="lang-btn" id="langToggle">ES</button>
+      <a href="https://wa.me/593984068842" target="_blank" class="nav-cta" data-en="Contact" data-es="Contacto">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="drawer-overlay"></div>
+<div id="drawer">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="nav-logo-text" style="font-size:22px;">HESMA <span>SPORTS</span></div>
+    <button id="closeDrawer" style="background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;">✕</button>
+  </div>
+  <div class="drawer-links">
+    <a href="#players" data-en="Players" data-es="Jugadores">Players</a>
+    <a href="#about" data-en="About" data-es="Nosotros">About</a>
+    <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+    <a href="#roster" data-en="Roster" data-es="Plantel">Roster</a>
+    <a href="#news" data-en="News" data-es="Noticias">News</a>
+  </div>
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px;">
+    <button class="lang-btn" id="langToggleMobile" style="width:fit-content;">ES</button>
+    <a href="https://wa.me/593984068842" target="_blank" class="btn-wa" style="justify-content:center;" data-en="Contact Agency" data-es="Contactar Agencia">Contact Agency</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-accent-line"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-tag" data-en="Professional Football Representation" data-es="Representación Profesional de Fútbol">
+        Professional Football Representation
+      </div>
+      <h1 class="hero-title">
+        <span data-en="NEXT<br>GENERATION<br><span class='cyan'>FOOTBALL</span><br>TALENT" data-es="EL TALENTO<br>DEL<br><span class='cyan'>FÚTBOL</span><br>MODERNO">
+          NEXT<br>GENERATION<br><span class="cyan">FOOTBALL</span><br>TALENT
+        </span>
+      </h1>
+      <p class="hero-subtitle" data-en="We represent, develop and position elite Ecuadorian footballers on the global stage. Your career is our mission." data-es="Representamos, desarrollamos y posicionamos futbolistas ecuatorianos de élite en el escenario global. Tu carrera es nuestra misión.">
+        We represent, develop and position elite Ecuadorian footballers on the global stage. Your career is our mission.
+      </p>
+      <div class="hero-btns">
+        <a href="#players" class="btn-primary" data-en="Explore Players" data-es="Ver Jugadores">
+          Explore Players <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="https://wa.me/593984068842" target="_blank" class="btn-secondary" data-en="Contact Agency" data-es="Contactar Agencia">
+          Contact Agency
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">19</div>
+          <div class="stat-label" data-en="Players" data-es="Jugadores">Players</div>
+        </div>
+        <div>
+          <div class="stat-num">8+</div>
+          <div class="stat-label" data-en="Clubs" data-es="Clubes">Clubs</div>
+        </div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-label" data-en="Countries" data-es="Países">Countries</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-players">
+      <!-- Featured players grid - desktop only -->
+      <div class="hero-player-card">
+        <div class="img-placeholder"><i class="fas fa-user"></i><span>MATEO VIERA</span></div>
+        <div class="hero-player-overlay"></div>
+        <div class="hero-player-info">
+          <div class="hero-player-pos">Extremo Derecho</div>
+          <div class="hero-player-name">Mateo Viera</div>
+          <div class="hero-player-club">CD Macará · 21</div>
+        </div>
+      </div>
+      <div class="hero-player-card">
+        <div class="img-placeholder"><i class="fas fa-user"></i><span>EDDY MEJÍA</span></div>
+        <div class="hero-player-overlay"></div>
+        <div class="hero-player-info">
+          <div class="hero-player-pos">Lateral Izquierdo</div>
+          <div class="hero-player-name">Eddy Mejía</div>
+          <div class="hero-player-club">U. Católica · 26</div>
+        </div>
+      </div>
+      <div class="hero-player-card">
+        <div class="img-placeholder"><i class="fas fa-user"></i><span>JANDRY CALLE</span></div>
+        <div class="hero-player-overlay"></div>
+        <div class="hero-player-info">
+          <div class="hero-player-pos">Mediocentro Ofensivo</div>
+          <div class="hero-player-name">Jandry Calle</div>
+          <div class="hero-player-club">LDU Quito · 16</div>
+        </div>
+      </div>
+      <div class="hero-player-card">
+        <div class="img-placeholder"><i class="fas fa-user"></i><span>ARON RODRÍGUEZ</span></div>
+        <div class="hero-player-overlay"></div>
+        <div class="hero-player-info">
+          <div class="hero-player-pos">Extremo Izquierdo</div>
+          <div class="hero-player-name">Aron Rodríguez</div>
+          <div class="hero-player-club">Ind. del Valle · 26</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PLAYERS -->
+<section id="players">
+  <div class="section-inner">
+    <div class="players-header reveal">
+      <div>
+        <div class="section-tag" data-en="Featured Players" data-es="Jugadores Destacados">Featured Players</div>
+        <h2 class="section-title" data-en="OUR TOP<br><span style='color:var(--cyan)'>TALENTS</span>" data-es="NUESTROS<br><span style='color:var(--cyan)'>TALENTOS</span>">
+          OUR TOP<br><span style="color:var(--cyan)">TALENTS</span>
+        </h2>
+      </div>
+      <a href="players.html" class="btn-secondary" data-en="View Full Roster →" data-es="Ver Plantel Completo →">View Full Roster →</a>
+    </div>
+    <div class="players-grid">
+      <!-- Card 1: Mateo Viera -->
+      <div class="player-card reveal" style="transition-delay:0.05s">
+        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <div class="player-card-overlay"></div>
+        <span class="player-card-value">€1M</span>
+        <span class="player-card-age">21</span>
+        <div class="player-card-body">
+          <div class="player-card-pos">Extremo Derecho</div>
+          <div class="player-card-name">Mateo Viera</div>
+          <div class="player-card-club">CD Macará</div>
+        </div>
+        <a href="players/mateo-viera.html" class="player-view-btn" data-en="View Profile" data-es="Ver Perfil">View Profile</a>
+      </div>
+      <!-- Card 2: Eddy Mejía -->
+      <div class="player-card reveal" style="transition-delay:0.1s">
+        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <div class="player-card-overlay"></div>
+        <span class="player-card-value">€900K</span>
+        <span class="player-card-age">26</span>
+        <div class="player-card-body">
+          <div class="player-card-pos">Lateral Izquierdo</div>
+          <div class="player-card-name">Eddy Mejía</div>
+          <div class="player-card-club">CD U. Católica</div>
+        </div>
+        <a href="players/eddy-mejia.html" class="player-view-btn" data-en="View Profile" data-es="Ver Perfil">View Profile</a>
+      </div>
+      <!-- Card 3: Jandry Calle -->
+      <div class="player-card reveal" style="transition-delay:0.15s">
+        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <div class="player-card-overlay"></div>
+        <span class="player-card-value">—</span>
+        <span class="player-card-age">16</span>
+        <div class="player-card-body">
+          <div class="player-card-pos">Mediocentro Ofensivo</div>
+          <div class="player-card-name">Jandry Calle</div>
+          <div class="player-card-club">LDU Quito</div>
+        </div>
+        <a href="players/jandry-calle.html" class="player-view-btn" data-en="View Profile" data-es="Ver Perfil">View Profile</a>
+      </div>
+      <!-- Card 4: Patrick Ortiz -->
+      <div class="player-card reveal" style="transition-delay:0.2s">
+        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <div class="player-card-overlay"></div>
+        <span class="player-card-value">—</span>
+        <span class="player-card-age">20</span>
+        <div class="player-card-body">
+          <div class="player-card-pos">Defensa Central</div>
+          <div class="player-card-name">Patrick Ortiz</div>
+          <div class="player-card-club">LDU Quito</div>
+        </div>
+        <a href="players/patrick-ortiz.html" class="player-view-btn" data-en="View Profile" data-es="Ver Perfil">View Profile</a>
+      </div>
+      <!-- Card 5: Aron Rodríguez -->
+      <div class="player-card reveal" style="transition-delay:0.25s">
+        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <div class="player-card-overlay"></div>
+        <span class="player-card-value">€800K</span>
+        <span class="player-card-age">26</span>
+        <div class="player-card-body">
+          <div class="player-card-pos">Extremo Izquierdo</div>
+          <div class="player-card-name">Aron Rodríguez</div>
+          <div class="player-card-club">Ind. del Valle</div>
+        </div>
+        <a href="players/aron-rodriguez.html" class="player-view-btn" data-en="View Profile" data-es="Ver Perfil">View Profile</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-main-img">
+          <div class="img-placeholder" style="height:100%;background:var(--bg3);">
+            <i class="fas fa-futbol" style="font-size:64px;"></i>
+            <span style="font-size:13px;" data-en="Agency Photo" data-es="Foto Agencia">Agency Photo</span>
+          </div>
+          <div class="about-overlay"></div>
+        </div>
+        <div class="about-badge">
+          <div class="about-badge-num">2020</div>
+          <div class="about-badge-text" data-en="Founded" data-es="Fundada">Founded</div>
+        </div>
+        <div class="about-cyan-line"></div>
+      </div>
+      <div class="about-text reveal" style="transition-delay:0.15s">
+        <div class="section-tag" data-en="About Hesma Sports" data-es="Sobre Hesma Sports">About Hesma Sports</div>
+        <h2 class="section-title" data-en="MORE THAN AN<br><span style='color:var(--cyan)'>AGENCY</span>" data-es="MÁS QUE UNA<br><span style='color:var(--cyan)'>AGENCIA</span>">
+          MORE THAN AN<br><span style="color:var(--cyan)">AGENCY</span>
+        </h2>
+        <div class="cyan-divider"></div>
+        <p class="about-body" data-en="Hesma Sports is a professional football representation agency committed to developing and positioning elite Ecuadorian talent on the global stage. We don't just negotiate contracts — we build careers, protect futures, and open doors that change lives." data-es="Hesma Sports es una agencia de representación profesional de fútbol comprometida con el desarrollo y posicionamiento del talento ecuatoriano de élite en el escenario global. No solo negociamos contratos — construimos carreras, protegemos futuros y abrimos puertas que cambian vidas.">
+          Hesma Sports is a professional football representation agency committed to developing and positioning elite Ecuadorian talent on the global stage. We don't just negotiate contracts — we build careers, protect futures, and open doors that change lives.
+        </p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon"><i class="fas fa-globe"></i></div>
+            <div>
+              <div class="about-feature-title" data-en="International Network" data-es="Red Internacional">International Network</div>
+              <div class="about-feature-desc" data-en="Direct connections with clubs, scouts and directors across South America, Europe and beyond." data-es="Conexiones directas con clubes, ojeadores y directivos en Sudamérica, Europa y más allá.">Direct connections with clubs, scouts and directors across South America, Europe and beyond.</div>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon"><i class="fas fa-shield-halved"></i></div>
+            <div>
+              <div class="about-feature-title" data-en="Player Protection" data-es="Protección del Jugador">Player Protection</div>
+              <div class="about-feature-desc" data-en="Legal, contractual and personal support at every stage of the player's career." data-es="Apoyo legal, contractual y personal en cada etapa de la carrera del jugador.">Legal, contractual and personal support at every stage of the player's career.</div>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <div class="about-feature-title" data-en="Career Development" data-es="Desarrollo de Carrera">Career Development</div>
+              <div class="about-feature-desc" data-en="Strategic planning to maximize each player's market value and on-field performance." data-es="Planificación estratégica para maximizar el valor de mercado y el rendimiento de cada jugador.">Strategic planning to maximize each player's market value and on-field performance.</div>
+            </div>
+          </div>
+        </div>
+        <a href="about.html" class="btn-primary" data-en="Learn More →" data-es="Conocer Más →">Learn More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 0;">
+      <div class="section-tag" data-en="What We Do" data-es="Qué Hacemos">What We Do</div>
+      <h2 class="section-title" data-en="OUR<br><span style='color:var(--cyan)'>SERVICES</span>" data-es="NUESTROS<br><span style='color:var(--cyan)'>SERVICIOS</span>">OUR<br><span style="color:var(--cyan)">SERVICES</span></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal" style="transition-delay:0.05s">
+        <div class="service-num">01</div>
+        <div class="service-icon"><i class="fas fa-handshake"></i></div>
+        <div class="service-title" data-en="Sports Representation" data-es="Representación Deportiva">Sports Representation</div>
+        <div class="service-desc" data-en="Professional representation in negotiations with clubs, federations and sports entities at national and international level." data-es="Representación profesional en negociaciones con clubes, federaciones y entidades deportivas a nivel nacional e internacional.">Professional representation in negotiations with clubs, federations and sports entities at national and international level.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.1s">
+        <div class="service-num">02</div>
+        <div class="service-icon"><i class="fas fa-file-contract"></i></div>
+        <div class="service-title" data-en="Contract Negotiation" data-es="Negociación de Contratos">Contract Negotiation</div>
+        <div class="service-desc" data-en="Expert contract management to ensure the best conditions for each player's short and long-term development." data-es="Gestión experta de contratos para asegurar las mejores condiciones para el desarrollo a corto y largo plazo de cada jugador.">Expert contract management to ensure the best conditions for each player's short and long-term development.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.15s">
+        <div class="service-num">03</div>
+        <div class="service-icon"><i class="fas fa-star"></i></div>
+        <div class="service-title" data-en="Personal Branding" data-es="Marca Personal">Personal Branding</div>
+        <div class="service-desc" data-en="Building the player's public image, social media management and commercial sponsorship opportunities." data-es="Construcción de la imagen pública del jugador, gestión de redes sociales y oportunidades de patrocinio comercial.">Building the player's public image, social media management and commercial sponsorship opportunities.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.2s">
+        <div class="service-num">04</div>
+        <div class="service-icon"><i class="fas fa-earth-americas"></i></div>
+        <div class="service-title" data-en="International Opportunities" data-es="Oportunidades Internacionales">International Opportunities</div>
+        <div class="service-desc" data-en="Active scouting of international transfer opportunities and direct mediation with clubs in South America, Europe and the USA." data-es="Búsqueda activa de oportunidades de transferencia internacional y mediación directa con clubes de Sudamérica, Europa y USA.">Active scouting of international transfer opportunities and direct mediation with clubs in South America, Europe and the USA.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.25s">
+        <div class="service-num">05</div>
+        <div class="service-icon"><i class="fas fa-magnifying-glass"></i></div>
+        <div class="service-title" data-en="Talent Scouting" data-es="Scouting de Talento">Talent Scouting</div>
+        <div class="service-desc" data-en="Detection and evaluation of emerging talent in Ecuadorian football to build the next generation of elite players." data-es="Detección y evaluación de talento emergente en el fútbol ecuatoriano para construir la próxima generación de jugadores de élite.">Detection and evaluation of emerging talent in Ecuadorian football to build the next generation of elite players.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.3s">
+        <div class="service-num">06</div>
+        <div class="service-icon"><i class="fas fa-trophy"></i></div>
+        <div class="service-title" data-en="Career Management" data-es="Gestión de Carrera">Career Management</div>
+        <div class="service-desc" data-en="Strategic planning of the player's sports career from youth academies to the professional level, maximizing their potential." data-es="Planificación estratégica de la carrera deportiva del jugador desde las divisiones menores hasta el nivel profesional, maximizando su potencial.">Strategic planning of the player's sports career from youth academies to the professional level, maximizing their potential.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.35s">
+        <div class="service-num">07</div>
+        <div class="service-icon"><i class="fas fa-money-bill-transfer"></i></div>
+        <div class="service-title" data-en="Transfers & Loans" data-es="Transferencias y Préstamos">Transfers & Loans</div>
+        <div class="service-desc" data-en="Management of permanent transfers, loans and free-agent processes with maximum value and security for the player." data-es="Gestión de transferencias permanentes, préstamos y procesos de agente libre con máximo valor y seguridad para el jugador.">Management of permanent transfers, loans and free-agent processes with maximum value and security for the player.</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.4s">
+        <div class="service-num">08</div>
+        <div class="service-icon"><i class="fas fa-users"></i></div>
+        <div class="service-title" data-en="Sponsorships" data-es="Patrocinios">Sponsorships</div>
+        <div class="service-desc" data-en="Negotiation and management of commercial agreements, sports brand deals and institutional sponsorships for players." data-es="Negociación y gestión de acuerdos comerciales, contratos con marcas deportivas y patrocinios institucionales para jugadores.">Negotiation and management of commercial agreements, sports brand deals and institutional sponsorships for players.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROSTER -->
+<section id="roster">
+  <div class="section-inner">
+    <div class="roster-header reveal">
+      <div>
+        <div class="section-tag" data-en="Full Roster" data-es="Plantel Completo">Full Roster</div>
+        <h2 class="section-title" data-en="ALL<br><span style='color:var(--cyan)'>PLAYERS</span>" data-es="TODOS LOS<br><span style='color:var(--cyan)'>JUGADORES</span>">ALL<br><span style="color:var(--cyan)">PLAYERS</span></h2>
+      </div>
+      <a href="players.html" class="btn-secondary" data-en="Full Profiles →" data-es="Perfiles Completos →">Full Profiles →</a>
+    </div>
+    <div class="roster-filters reveal" style="transition-delay:0.1s">
+      <button class="filter-btn active" data-filter="all" data-en="All" data-es="Todos">All</button>
+      <button class="filter-btn" data-filter="extremo" data-en="Winger" data-es="Extremo">Winger</button>
+      <button class="filter-btn" data-filter="defensa" data-en="Defender" data-es="Defensa">Defender</button>
+      <button class="filter-btn" data-filter="mediocentro" data-en="Midfielder" data-es="Mediocampista">Midfielder</button>
+      <button class="filter-btn" data-filter="lateral" data-en="Full Back" data-es="Lateral">Full Back</button>
+      <button class="filter-btn" data-filter="delantero" data-en="Forward" data-es="Delantero">Forward</button>
+      <button class="filter-btn" data-filter="portero" data-en="Goalkeeper" data-es="Portero">Goalkeeper</button>
+    </div>
+    <div class="reveal" style="transition-delay:0.15s;overflow-x:auto;">
+      <table class="roster-table" id="rosterTable">
+        <thead>
+          <tr>
+            <th data-en="Player" data-es="Jugador">Player</th>
+            <th data-en="Position" data-es="Posición">Position</th>
+            <th data-en="Age" data-es="Edad">Age</th>
+            <th data-en="Club" data-es="Club">Club</th>
+            <th data-en="Contract" data-es="Contrato">Contract</th>
+            <th data-en="Market Value" data-es="Valor de Mercado">Market Value</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rosterBody">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-inner">
+    <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;">
+      <div>
+        <div class="section-tag" data-en="Latest News" data-es="Últimas Noticias">Latest News</div>
+        <h2 class="section-title" data-en="TRANSFERS &<br><span style='color:var(--cyan)'>UPDATES</span>" data-es="FICHAJES &<br><span style='color:var(--cyan)'>NOVEDADES</span>">TRANSFERS &<br><span style="color:var(--cyan)">UPDATES</span></h2>
+      </div>
+    </div>
+
+    <!-- Transfer Announcements -->
+    <div class="reveal" style="margin-bottom:48px;">
+      <div class="transfer-card">
+        <div class="transfer-icon"><i class="fas fa-right-left"></i></div>
+        <div class="transfer-text">
+          <div class="transfer-label" data-en="Contract Renewal" data-es="Renovación de Contrato">Contract Renewal</div>
+          <div class="transfer-headline" data-en="MATEO VIERA EXTENDS WITH CD MACARÁ UNTIL 2027" data-es="MATEO VIERA RENUEVA CON CD MACARÁ HASTA 2027">MATEO VIERA EXTENDS WITH CD MACARÁ UNTIL 2027</div>
+          <div class="transfer-sub" data-en="The right winger continues his development at LigaPro." data-es="El extremo derecho continúa su desarrollo en LigaPro.">The right winger continues his development at LigaPro.</div>
+        </div>
+        <div class="transfer-date">2025</div>
+      </div>
+      <div class="transfer-card">
+        <div class="transfer-icon"><i class="fas fa-futbol"></i></div>
+        <div class="transfer-text">
+          <div class="transfer-label" data-en="Young Talent" data-es="Joven Talento">Young Talent</div>
+          <div class="transfer-headline" data-en="JANDRY CALLE, 16, RISES THROUGH LDU QUITO ACADEMY" data-es="JANDRY CALLE, 16 AÑOS, DESTACA EN LAS DIVISIONES MENORES DE LDU">JANDRY CALLE, 16, RISES THROUGH LDU QUITO ACADEMY</div>
+          <div class="transfer-sub" data-en="Ecuador's brightest prospect signs with Hesma Sports." data-es="La mayor promesa del fútbol ecuatoriano se une a Hesma Sports.">Ecuador's brightest prospect signs with Hesma Sports.</div>
+        </div>
+        <div class="transfer-date">2025</div>
+      </div>
+      <div class="transfer-card">
+        <div class="transfer-icon"><i class="fas fa-certificate"></i></div>
+        <div class="transfer-text">
+          <div class="transfer-label" data-en="New Signing" data-es="Nuevo Fichaje">New Signing</div>
+          <div class="transfer-headline" data-en="ARON RODRÍGUEZ JOINS INDEPENDIENTE DEL VALLE" data-es="ARON RODRÍGUEZ LLEGA A INDEPENDIENTE DEL VALLE">ARON RODRÍGUEZ JOINS INDEPENDIENTE DEL VALLE</div>
+          <div class="transfer-sub" data-en="The left winger signs with one of Ecuador's top clubs." data-es="El extremo izquierdo firma con uno de los mejores clubes del Ecuador.">The left winger signs with one of Ecuador's top clubs.</div>
+        </div>
+        <div class="transfer-date">2025</div>
+      </div>
+    </div>
+
+    <div class="news-grid">
+      <div class="news-card reveal" style="transition-delay:0.05s">
+        <div class="news-img">
+          <div class="img-placeholder"><i class="fas fa-newspaper" style="font-size:32px;"></i></div>
+          <span class="news-category" data-en="Agency" data-es="Agencia">Agency</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">2025</div>
+          <div class="news-title" data-en="HESMA SPORTS EXPANDS ITS ROSTER WITH 3 NEW ECUADORIAN TALENTS" data-es="HESMA SPORTS AMPLÍA SU PLANTEL CON 3 NUEVOS TALENTOS ECUATORIANOS">HESMA SPORTS EXPANDS ITS ROSTER WITH 3 NEW ECUADORIAN TALENTS</div>
+          <div class="news-excerpt" data-en="The agency continues to grow its portfolio of elite players in LigaPro Ecuador." data-es="La agencia continúa creciendo su portafolio de jugadores de élite en LigaPro Ecuador.">The agency continues to grow its portfolio of elite players in LigaPro Ecuador.</div>
+        </div>
+      </div>
+      <div class="news-card reveal" style="transition-delay:0.1s">
+        <div class="news-img">
+          <div class="img-placeholder"><i class="fas fa-newspaper" style="font-size:32px;"></i></div>
+          <span class="news-category" data-en="Transfer" data-es="Transferencia">Transfer</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">2025</div>
+          <div class="news-title" data-en="INTERNATIONAL OPPORTUNITY: HESMA OPENS DOORS IN EUROPE" data-es="OPORTUNIDAD INTERNACIONAL: HESMA ABRE PUERTAS EN EUROPA">INTERNATIONAL OPPORTUNITY: HESMA OPENS DOORS IN EUROPE</div>
+          <div class="news-excerpt" data-en="The agency is in talks with several European clubs for players in its portfolio." data-es="La agencia está en conversaciones con varios clubes europeos por jugadores de su cartera.">The agency is in talks with several European clubs for players in its portfolio.</div>
+        </div>
+      </div>
+      <div class="news-card reveal" style="transition-delay:0.15s">
+        <div class="news-img">
+          <div class="img-placeholder"><i class="fas fa-newspaper" style="font-size:32px;"></i></div>
+          <span class="news-category" data-en="Development" data-es="Desarrollo">Development</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">2025</div>
+          <div class="news-title" data-en="BUILDING THE FUTURE OF ECUADORIAN FOOTBALL" data-es="CONSTRUYENDO EL FUTURO DEL FÚTBOL ECUATORIANO">BUILDING THE FUTURE OF ECUADORIAN FOOTBALL</div>
+          <div class="news-excerpt" data-en="Hesma Sports invests in youth player development and long-term career planning." data-es="Hesma Sports invierte en el desarrollo de jugadores jóvenes y la planificación de carreras a largo plazo.">Hesma Sports invests in youth player development and long-term career planning.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta">
+  <div class="section-inner">
+    <div class="cta-inner reveal">
+      <div class="section-tag" style="justify-content:center;" data-en="Take the Next Step" data-es="Da el Siguiente Paso">Take the Next Step</div>
+      <h2 class="cta-title">
+        <span data-en="YOUR CAREER.<br>OUR <span class='cyan'>MISSION.</span>" data-es="TU CARRERA.<br>NUESTRA <span class='cyan'>MISIÓN.</span>">
+          YOUR CAREER.<br>OUR <span class="cyan">MISSION.</span>
+        </span>
+      </h2>
+      <p class="cta-sub" data-en="Whether you're a player looking for representation, a club searching for talent, or a partner looking to collaborate — let's talk." data-es="Ya sea que seas un jugador buscando representación, un club buscando talento, o un socio buscando colaborar — hablemos.">
+        Whether you're a player looking for representation, a club searching for talent, or a partner looking to collaborate — let's talk.
+      </p>
+      <div class="cta-btns">
+        <a href="https://wa.me/593984068842" target="_blank" class="btn-wa">
+          <i class="fab fa-whatsapp"></i>
+          <span data-en="Contact on WhatsApp" data-es="Contactar por WhatsApp">Contact on WhatsApp</span>
+        </a>
+        <a href="https://www.instagram.com/hesmasports/" target="_blank" class="btn-secondary">
+          <i class="fab fa-instagram"></i>
+          @hesmasports
+        </a>
+      </div>
+      <div class="cta-perks">
+        <div class="cta-perk"><i class="fas fa-check-circle"></i><span data-en="19 Active Players" data-es="19 Jugadores Activos">19 Active Players</span></div>
+        <div class="cta-perk"><i class="fas fa-check-circle"></i><span data-en="International Network" data-es="Red Internacional">International Network</span></div>
+        <div class="cta-perk"><i class="fas fa-check-circle"></i><span data-en="Professional & Confidential" data-es="Profesional y Confidencial">Professional & Confidential</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">HESMA <span>SPORTS</span></div>
+        <p class="footer-tagline" data-en="Professional football representation agency. Developing Ecuadorian talent for the global game." data-es="Agencia de representación profesional de fútbol. Desarrollando el talento ecuatoriano para el juego global.">
+          Professional football representation agency. Developing Ecuadorian talent for the global game.
+        </p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/hesmasports/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/593984068842" target="_blank" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Navigation" data-es="Navegación">Navigation</div>
+        <div class="footer-links">
+          <a href="#players" data-en="Players" data-es="Jugadores">Players</a>
+          <a href="#about" data-en="About Us" data-es="Nosotros">About Us</a>
+          <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+          <a href="#roster" data-en="Full Roster" data-es="Plantel Completo">Full Roster</a>
+          <a href="#news" data-en="News" data-es="Noticias">News</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Players" data-es="Jugadores">Players</div>
+        <div class="footer-links">
+          <a href="players/mateo-viera.html">Mateo Viera</a>
+          <a href="players/eddy-mejia.html">Eddy Mejía</a>
+          <a href="players/aron-rodriguez.html">Aron Rodríguez</a>
+          <a href="players/jandry-calle.html">Jandry Calle</a>
+          <a href="players.html" data-en="View All →" data-es="Ver Todos →">View All →</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Contact" data-es="Contacto">Contact</div>
+        <div class="footer-links">
+          <a href="https://wa.me/593984068842" target="_blank">+593 98 406 8842</a>
+          <a href="https://www.instagram.com/hesmasports/" target="_blank">@hesmasports</a>
+          <a href="players.html" data-en="Full Roster" data-es="Plantel Completo">Full Roster</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Hesma Sports. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></div>
+      <div class="footer-copy" style="display:flex;align-items:center;gap:8px;">
+        <span style="color:var(--cyan);font-size:10px;">●</span>
+        <span data-en="Ecuador · Football Representation" data-es="Ecuador · Representación de Fútbol">Ecuador · Football Representation</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/593984068842" target="_blank" id="wa-float">
+  <i class="fab fa-whatsapp"></i>
+  <span data-en="Contact!" data-es="¡Contáctanos!">Contact!</span>
+</a>
+
+<script>
+// ===================== ROSTER DATA =====================
+const players = [
+  { name:"Mateo Viera", pos:"Extremo derecho", posKey:"extremo", age:21, club:"CD Macará", contract:"2027", value:"€1.00M", slug:"mateo-viera" },
+  { name:"Eddy Mejía", pos:"Lateral izquierdo", posKey:"lateral", age:26, club:"CD Universidad Católica", contract:"—", value:"€900K", slug:"eddy-mejia" },
+  { name:"Aron Rodríguez", pos:"Extremo izquierdo", posKey:"extremo", age:26, club:"Independiente del Valle", contract:"—", value:"€800K", slug:"aron-rodriguez" },
+  { name:"Martín Tello", pos:"Pivote", posKey:"mediocentro", age:21, club:"CD Macará", contract:"2027", value:"€750K", slug:"martin-tello" },
+  { name:"José Luis Marrufo", pos:"Defensa central", posKey:"defensa", age:30, club:"CD Macará", contract:"2026", value:"€700K", slug:"jose-marrufo" },
+  { name:"José Gabriel Cevallos", pos:"Portero", posKey:"portero", age:28, club:"Barcelona SC Guayaquil", contract:"2027", value:"€600K", slug:"jose-cevallos" },
+  { name:"Wilter Ayoví", pos:"Extremo derecho", posKey:"extremo", age:29, club:"Comerciantes Unidos", contract:"2026", value:"€500K", slug:"wilter-ayovi" },
+  { name:"Andrés Mena", pos:"Pivote", posKey:"mediocentro", age:25, club:"SD Aucas", contract:"2026", value:"€400K", slug:"andres-mena" },
+  { name:"Rommel Cabezas", pos:"Defensa central", posKey:"defensa", age:25, club:"CD El Nacional", contract:"2026", value:"€350K", slug:"rommel-cabezas" },
+  { name:"Freddy Mina", pos:"Extremo derecho", posKey:"extremo", age:27, club:"Mushuc Runa SC", contract:"2026", value:"€250K", slug:"freddy-mina" },
+  { name:"Darwin Nazareno", pos:"Lateral derecho", posKey:"lateral", age:22, club:"CD Universidad Católica", contract:"—", value:"€250K", slug:"darwin-nazareno" },
+  { name:"Piero Guzmán", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:22, club:"SD Aucas", contract:"2026", value:"€200K", slug:"piero-guzman" },
+  { name:"Patricio Ramos", pos:"Delantero centro", posKey:"delantero", age:22, club:"CD Macará", contract:"—", value:"€50K", slug:"patricio-ramos" },
+  { name:"Cristopher Angulo", pos:"Lateral derecho", posKey:"lateral", age:25, club:"Mushuc Runa SC", contract:"2026", value:"€50K", slug:"cristopher-angulo" },
+  { name:"Alessandro Guanoluisa", pos:"Centrocampista", posKey:"mediocentro", age:22, club:"Club Tigrillos FC", contract:"—", value:"€50K", slug:"alessandro-guanoluisa" },
+  { name:"Maikel Caicedo", pos:"Defensa central", posKey:"defensa", age:21, club:"LDU Quito", contract:"—", value:"€50K", slug:"maikel-caicedo" },
+  { name:"Matías Cabeza", pos:"Delantero centro", posKey:"delantero", age:20, club:"CD Macará", contract:"—", value:"€25K", slug:"matias-cabeza" },
+  { name:"Patrick Ortíz", pos:"Defensa central", posKey:"defensa", age:20, club:"LDU Quito", contract:"—", value:"—", slug:"patrick-ortiz" },
+  { name:"Jandry Calle", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:16, club:"LDU Quito", contract:"—", value:"—", slug:"jandry-calle" },
+];
+
+function renderRoster(filter) {
+  const body = document.getElementById('rosterBody');
+  const filtered = filter === 'all' ? players : players.filter(p => p.posKey === filter);
+  body.innerHTML = filtered.map(p => `
+    <tr>
+      <td>
+        <div class="roster-name-cell">
+          <div class="roster-avatar"><div class="img-placeholder" style="height:40px;"><i class="fas fa-user" style="font-size:14px;color:var(--bg3);"></i></div></div>
+          <div>
+            <div class="roster-player-name">${p.name}</div>
+            <div class="roster-player-pos">${p.pos}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="pos-badge">${p.pos.split(' ')[0]}</span></td>
+      <td>${p.age}</td>
+      <td>${p.club}</td>
+      <td>${p.contract}</td>
+      <td class="value-cell">${p.value}</td>
+      <td><a href="players/${p.slug}.html" class="roster-link" data-en="View →" data-es="Ver →">View →</a></td>
+    </tr>
+  `).join('');
+}
+renderRoster('all');
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderRoster(btn.dataset.filter);
+    if(currentLang === 'es') applyLang('es');
+  });
+});
+
+// ===================== LANGUAGE TOGGLE =====================
+let currentLang = 'en';
+function applyLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if(val) el.innerHTML = val;
+  });
+  document.querySelectorAll('#langToggle, #langToggleMobile').forEach(btn => {
+    btn.textContent = lang === 'en' ? 'ES' : 'EN';
+  });
+  // Also re-render roster link text
+  document.querySelectorAll('.roster-link').forEach(el => {
+    el.textContent = lang === 'en' ? 'View →' : 'Ver →';
+  });
+  // Also re-render view profile buttons
+  document.querySelectorAll('.player-view-btn').forEach(el => {
+    el.textContent = lang === 'en' ? 'View Profile' : 'Ver Perfil';
+  });
+}
+document.querySelectorAll('#langToggle, #langToggleMobile').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(currentLang === 'en' ? 'es' : 'en'));
+});
+
+// ===================== NAVBAR SCROLL =====================
+let lastScroll = 0;
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  const current = window.scrollY;
+  if(current > 80) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
+  if(current > lastScroll && current > 200) navbar.classList.add('hide');
+  else navbar.classList.remove('hide');
+  lastScroll = current;
+}, { passive:true });
+
+// ===================== HAMBURGER =====================
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('drawer-overlay');
+const closeDrawer = document.getElementById('closeDrawer');
+function openDrawer() { drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawerFn() { drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow=''; }
+hamburgerBtn.addEventListener('click', openDrawer);
+closeDrawer.addEventListener('click', closeDrawerFn);
+overlay.addEventListener('click', closeDrawerFn);
+drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawerFn));
+
+// ===================== SCROLL REVEAL =====================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold:0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
