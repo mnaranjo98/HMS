@@ -706,7 +706,7 @@
     <div class="hero-players">
       <!-- Featured players grid - desktop only -->
       <div class="hero-player-card">
-        <div class="img-placeholder"><i class="fas fa-user"></i><span>MATEO VIERA</span></div>
+        <img src="../HSM_Photo/Mateo_Viera1.jpg" alt="Mateo Viera">
         <div class="hero-player-overlay"></div>
         <div class="hero-player-info">
           <div class="hero-player-pos">Extremo Derecho</div>
@@ -715,7 +715,7 @@
         </div>
       </div>
       <div class="hero-player-card">
-        <div class="img-placeholder"><i class="fas fa-user"></i><span>EDDY MEJÍA</span></div>
+        <img src="../HSM_Photo/Eddy_Mejia1.jpg" alt="Eddy Mejía">
         <div class="hero-player-overlay"></div>
         <div class="hero-player-info">
           <div class="hero-player-pos">Lateral Izquierdo</div>
@@ -724,7 +724,7 @@
         </div>
       </div>
       <div class="hero-player-card">
-        <div class="img-placeholder"><i class="fas fa-user"></i><span>JANDRY CALLE</span></div>
+        <img src="../HSM_Photo/Jandry_Calle.jpg" alt="Jandry Calle">
         <div class="hero-player-overlay"></div>
         <div class="hero-player-info">
           <div class="hero-player-pos">Mediocentro Ofensivo</div>
@@ -760,7 +760,7 @@
     <div class="players-grid">
       <!-- Card 1: Mateo Viera -->
       <div class="player-card reveal" style="transition-delay:0.05s">
-        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <img src="../HSM_Photo/Mateo_Viera1.jpg" alt="Mateo Viera">
         <div class="player-card-overlay"></div>
         <span class="player-card-value">€1M</span>
         <span class="player-card-age">21</span>
@@ -773,7 +773,7 @@
       </div>
       <!-- Card 2: Eddy Mejía -->
       <div class="player-card reveal" style="transition-delay:0.1s">
-        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <img src="../HSM_Photo/Eddy_Mejia1.jpg" alt="Eddy Mejía">
         <div class="player-card-overlay"></div>
         <span class="player-card-value">€900K</span>
         <span class="player-card-age">26</span>
@@ -786,7 +786,7 @@
       </div>
       <!-- Card 3: Jandry Calle -->
       <div class="player-card reveal" style="transition-delay:0.15s">
-        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <img src="../HSM_Photo/Jandry_Calle.jpg" alt="Jandry Calle">
         <div class="player-card-overlay"></div>
         <span class="player-card-value">—</span>
         <span class="player-card-age">16</span>
@@ -799,7 +799,7 @@
       </div>
       <!-- Card 4: Patrick Ortiz -->
       <div class="player-card reveal" style="transition-delay:0.2s">
-        <div class="img-placeholder"><i class="fas fa-user" style="font-size:48px;"></i><span>PHOTO</span></div>
+        <img src="../HSM_Photo/Patrick_Ortiz.jpg" alt="Patrick Ortiz">
         <div class="player-card-overlay"></div>
         <span class="player-card-value">—</span>
         <span class="player-card-age">20</span>
@@ -1156,25 +1156,25 @@
 <script>
 // ===================== ROSTER DATA =====================
 const players = [
-  { name:"Mateo Viera", pos:"Extremo derecho", posKey:"extremo", age:21, club:"CD Macará", contract:"2027", value:"€1.00M", slug:"mateo-viera" },
-  { name:"Eddy Mejía", pos:"Lateral izquierdo", posKey:"lateral", age:26, club:"CD Universidad Católica", contract:"—", value:"€900K", slug:"eddy-mejia" },
-  { name:"Aron Rodríguez", pos:"Extremo izquierdo", posKey:"extremo", age:26, club:"Independiente del Valle", contract:"—", value:"€800K", slug:"aron-rodriguez" },
-  { name:"Martín Tello", pos:"Pivote", posKey:"mediocentro", age:21, club:"CD Macará", contract:"2027", value:"€750K", slug:"martin-tello" },
-  { name:"José Luis Marrufo", pos:"Defensa central", posKey:"defensa", age:30, club:"CD Macará", contract:"2026", value:"€700K", slug:"jose-marrufo" },
-  { name:"José Gabriel Cevallos", pos:"Portero", posKey:"portero", age:28, club:"Barcelona SC Guayaquil", contract:"2027", value:"€600K", slug:"jose-cevallos" },
-  { name:"Wilter Ayoví", pos:"Extremo derecho", posKey:"extremo", age:29, club:"Comerciantes Unidos", contract:"2026", value:"€500K", slug:"wilter-ayovi" },
-  { name:"Andrés Mena", pos:"Pivote", posKey:"mediocentro", age:25, club:"SD Aucas", contract:"2026", value:"€400K", slug:"andres-mena" },
-  { name:"Rommel Cabezas", pos:"Defensa central", posKey:"defensa", age:25, club:"CD El Nacional", contract:"2026", value:"€350K", slug:"rommel-cabezas" },
-  { name:"Freddy Mina", pos:"Extremo derecho", posKey:"extremo", age:27, club:"Mushuc Runa SC", contract:"2026", value:"€250K", slug:"freddy-mina" },
-  { name:"Darwin Nazareno", pos:"Lateral derecho", posKey:"lateral", age:22, club:"CD Universidad Católica", contract:"—", value:"€250K", slug:"darwin-nazareno" },
-  { name:"Piero Guzmán", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:22, club:"SD Aucas", contract:"2026", value:"€200K", slug:"piero-guzman" },
-  { name:"Patricio Ramos", pos:"Delantero centro", posKey:"delantero", age:22, club:"CD Macará", contract:"—", value:"€50K", slug:"patricio-ramos" },
-  { name:"Cristopher Angulo", pos:"Lateral derecho", posKey:"lateral", age:25, club:"Mushuc Runa SC", contract:"2026", value:"€50K", slug:"cristopher-angulo" },
-  { name:"Alessandro Guanoluisa", pos:"Centrocampista", posKey:"mediocentro", age:22, club:"Club Tigrillos FC", contract:"—", value:"€50K", slug:"alessandro-guanoluisa" },
-  { name:"Maikel Caicedo", pos:"Defensa central", posKey:"defensa", age:21, club:"LDU Quito", contract:"—", value:"€50K", slug:"maikel-caicedo" },
-  { name:"Matías Cabeza", pos:"Delantero centro", posKey:"delantero", age:20, club:"CD Macará", contract:"—", value:"€25K", slug:"matias-cabeza" },
-  { name:"Patrick Ortíz", pos:"Defensa central", posKey:"defensa", age:20, club:"LDU Quito", contract:"—", value:"—", slug:"patrick-ortiz" },
-  { name:"Jandry Calle", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:16, club:"LDU Quito", contract:"—", value:"—", slug:"jandry-calle" },
+  { name:"Mateo Viera", pos:"Extremo derecho", posKey:"extremo", age:21, club:"CD Macará", contract:"2027", value:"€1.00M", slug:"mateo-viera", img:"../HSM_Photo/Mateo_Viera1.jpg" },
+  { name:"Eddy Mejía", pos:"Lateral izquierdo", posKey:"lateral", age:26, club:"CD Universidad Católica", contract:"—", value:"€900K", slug:"eddy-mejia", img:"../HSM_Photo/Eddy_Mejia1.jpg" },
+  { name:"Aron Rodríguez", pos:"Extremo izquierdo", posKey:"extremo", age:26, club:"Independiente del Valle", contract:"—", value:"€800K", slug:"aron-rodriguez", img:null },
+  { name:"Martín Tello", pos:"Pivote", posKey:"mediocentro", age:21, club:"CD Macará", contract:"2027", value:"€750K", slug:"martin-tello", img:"../HSM_Photo/Martin_Tello.jpg" },
+  { name:"José Luis Marrufo", pos:"Defensa central", posKey:"defensa", age:30, club:"CD Macará", contract:"2026", value:"€700K", slug:"jose-marrufo", img:"../HSM_Photo/Jose_Marrufo.jpg" },
+  { name:"José Gabriel Cevallos", pos:"Portero", posKey:"portero", age:28, club:"Barcelona SC Guayaquil", contract:"2027", value:"€600K", slug:"jose-cevallos", img:null },
+  { name:"Wilter Ayoví", pos:"Extremo derecho", posKey:"extremo", age:29, club:"Comerciantes Unidos", contract:"2026", value:"€500K", slug:"wilter-ayovi", img:null },
+  { name:"Andrés Mena", pos:"Pivote", posKey:"mediocentro", age:25, club:"SD Aucas", contract:"2026", value:"€400K", slug:"andres-mena", img:"../HSM_Photo/Andres_Mena.jpg" },
+  { name:"Rommel Cabezas", pos:"Defensa central", posKey:"defensa", age:25, club:"CD El Nacional", contract:"2026", value:"€350K", slug:"rommel-cabezas", img:null },
+  { name:"Freddy Mina", pos:"Extremo derecho", posKey:"extremo", age:27, club:"Mushuc Runa SC", contract:"2026", value:"€250K", slug:"freddy-mina", img:null },
+  { name:"Darwin Nazareno", pos:"Lateral derecho", posKey:"lateral", age:22, club:"CD Universidad Católica", contract:"—", value:"€250K", slug:"darwin-nazareno", img:"../HSM_Photo/Darwin_Nazareno.jpg" },
+  { name:"Piero Guzmán", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:22, club:"SD Aucas", contract:"2026", value:"€200K", slug:"piero-guzman", img:"../HSM_Photo/Piero_Guzman.jpg" },
+  { name:"Patricio Ramos", pos:"Delantero centro", posKey:"delantero", age:22, club:"CD Macará", contract:"—", value:"€50K", slug:"patricio-ramos", img:null },
+  { name:"Cristopher Angulo", pos:"Lateral derecho", posKey:"lateral", age:25, club:"Mushuc Runa SC", contract:"2026", value:"€50K", slug:"cristopher-angulo", img:null },
+  { name:"Alessandro Guanoluisa", pos:"Centrocampista", posKey:"mediocentro", age:22, club:"Club Tigrillos FC", contract:"—", value:"€50K", slug:"alessandro-guanoluisa", img:null },
+  { name:"Maikel Caicedo", pos:"Defensa central", posKey:"defensa", age:21, club:"LDU Quito", contract:"—", value:"€50K", slug:"maikel-caicedo", img:"../HSM_Photo/Maikel_Caicedo.jpg" },
+  { name:"Matías Cabeza", pos:"Delantero centro", posKey:"delantero", age:20, club:"CD Macará", contract:"—", value:"€25K", slug:"matias-cabeza", img:null },
+  { name:"Patrick Ortíz", pos:"Defensa central", posKey:"defensa", age:20, club:"LDU Quito", contract:"—", value:"—", slug:"patrick-ortiz", img:"../HSM_Photo/Patrick_Ortiz.jpg" },
+  { name:"Jandry Calle", pos:"Mediocentro ofensivo", posKey:"mediocentro", age:16, club:"LDU Quito", contract:"—", value:"—", slug:"jandry-calle", img:"../HSM_Photo/Jandry_Calle.jpg" },
 ];
 
 function renderRoster(filter) {
@@ -1184,7 +1184,7 @@ function renderRoster(filter) {
     <tr>
       <td>
         <div class="roster-name-cell">
-          <div class="roster-avatar"><div class="img-placeholder" style="height:40px;"><i class="fas fa-user" style="font-size:14px;color:var(--bg3);"></i></div></div>
+          <div class="roster-avatar">${p.img ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">` : `<div class="img-placeholder" style="height:40px;"><i class="fas fa-user" style="font-size:14px;color:var(--bg3);"></i></div>`}</div>
           <div>
             <div class="roster-player-name">${p.name}</div>
             <div class="roster-player-pos">${p.pos}</div>

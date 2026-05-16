@@ -180,25 +180,25 @@
 
 <script>
 const players = [
-  { name:"Mateo Viera", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:21, club:"CD Macará", contract:"2027", value:"€1.00M", slug:"mateo-viera", nation:"Ecuador" },
-  { name:"Eddy Mejía", pos:"Lateral izquierdo", posKey:"lateral", posEN:"Left Back", age:26, club:"CD Universidad Católica", contract:"—", value:"€900K", slug:"eddy-mejia", nation:"Ecuador" },
-  { name:"Aron Rodríguez", pos:"Extremo izquierdo", posKey:"extremo", posEN:"Left Winger", age:26, club:"Independiente del Valle", contract:"—", value:"€800K", slug:"aron-rodriguez", nation:"Ecuador" },
-  { name:"Martín Tello", pos:"Pivote", posKey:"mediocentro", posEN:"Pivot", age:21, club:"CD Macará", contract:"2027", value:"€750K", slug:"martin-tello", nation:"Ecuador" },
-  { name:"José Luis Marrufo", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:30, club:"CD Macará", contract:"2026", value:"€700K", slug:"jose-marrufo", nation:"Venezuela" },
-  { name:"José Gabriel Cevallos", pos:"Portero", posKey:"portero", posEN:"Goalkeeper", age:28, club:"Barcelona SC Guayaquil", contract:"2027", value:"€600K", slug:"jose-cevallos", nation:"Ecuador" },
-  { name:"Wilter Ayoví", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:29, club:"Comerciantes Unidos", contract:"2026", value:"€500K", slug:"wilter-ayovi", nation:"Ecuador" },
-  { name:"Andrés Mena", pos:"Pivote", posKey:"mediocentro", posEN:"Pivot", age:25, club:"SD Aucas", contract:"2026", value:"€400K", slug:"andres-mena", nation:"Ecuador" },
-  { name:"Rommel Cabezas", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:25, club:"CD El Nacional", contract:"2026", value:"€350K", slug:"rommel-cabezas", nation:"Ecuador" },
-  { name:"Freddy Mina", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:27, club:"Mushuc Runa SC", contract:"2026", value:"€250K", slug:"freddy-mina", nation:"Ecuador" },
-  { name:"Darwin Nazareno", pos:"Lateral derecho", posKey:"lateral", posEN:"Right Back", age:22, club:"CD Universidad Católica", contract:"—", value:"€250K", slug:"darwin-nazareno", nation:"Ecuador" },
-  { name:"Piero Guzmán", pos:"Mediocentro ofensivo", posKey:"mediocentro", posEN:"Attacking Mid", age:22, club:"SD Aucas", contract:"2026", value:"€200K", slug:"piero-guzman", nation:"Ecuador" },
-  { name:"Patricio Ramos", pos:"Delantero centro", posKey:"delantero", posEN:"Striker", age:22, club:"CD Macará", contract:"—", value:"€50K", slug:"patricio-ramos", nation:"Ecuador" },
-  { name:"Cristopher Angulo", pos:"Lateral derecho", posKey:"lateral", posEN:"Right Back", age:25, club:"Mushuc Runa SC", contract:"2026", value:"€50K", slug:"cristopher-angulo", nation:"Ecuador" },
-  { name:"Alessandro Guanoluisa", pos:"Centrocampista", posKey:"mediocentro", posEN:"Midfielder", age:22, club:"Club Tigrillos FC", contract:"—", value:"€50K", slug:"alessandro-guanoluisa", nation:"Ecuador" },
-  { name:"Maikel Caicedo", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:21, club:"LDU Quito", contract:"—", value:"€50K", slug:"maikel-caicedo", nation:"Ecuador" },
-  { name:"Matías Cabeza", pos:"Delantero centro", posKey:"delantero", posEN:"Striker", age:20, club:"CD Macará", contract:"—", value:"€25K", slug:"matias-cabeza", nation:"Ecuador" },
-  { name:"Patrick Ortíz", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:20, club:"LDU Quito", contract:"—", value:"—", slug:"patrick-ortiz", nation:"Ecuador" },
-  { name:"Jandry Calle", pos:"Mediocentro ofensivo", posKey:"mediocentro", posEN:"Attacking Mid", age:16, club:"LDU Quito", contract:"—", value:"—", slug:"jandry-calle", nation:"Ecuador" },
+  { name:"Mateo Viera", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:21, club:"CD Macará", contract:"2027", value:"€1.00M", slug:"mateo-viera", nation:"Ecuador", img:"../HSM_Photo/Mateo_Viera1.jpg" },
+  { name:"Eddy Mejía", pos:"Lateral izquierdo", posKey:"lateral", posEN:"Left Back", age:26, club:"CD Universidad Católica", contract:"—", value:"€900K", slug:"eddy-mejia", nation:"Ecuador", img:"../HSM_Photo/Eddy_Mejia1.jpg" },
+  { name:"Aron Rodríguez", pos:"Extremo izquierdo", posKey:"extremo", posEN:"Left Winger", age:26, club:"Independiente del Valle", contract:"—", value:"€800K", slug:"aron-rodriguez", nation:"Ecuador", img:null },
+  { name:"Martín Tello", pos:"Pivote", posKey:"mediocentro", posEN:"Pivot", age:21, club:"CD Macará", contract:"2027", value:"€750K", slug:"martin-tello", nation:"Ecuador", img:"../HSM_Photo/Martin_Tello.jpg" },
+  { name:"José Luis Marrufo", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:30, club:"CD Macará", contract:"2026", value:"€700K", slug:"jose-marrufo", nation:"Venezuela", img:"../HSM_Photo/Jose_Marrufo.jpg" },
+  { name:"José Gabriel Cevallos", pos:"Portero", posKey:"portero", posEN:"Goalkeeper", age:28, club:"Barcelona SC Guayaquil", contract:"2027", value:"€600K", slug:"jose-cevallos", nation:"Ecuador", img:null },
+  { name:"Wilter Ayoví", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:29, club:"Comerciantes Unidos", contract:"2026", value:"€500K", slug:"wilter-ayovi", nation:"Ecuador", img:null },
+  { name:"Andrés Mena", pos:"Pivote", posKey:"mediocentro", posEN:"Pivot", age:25, club:"SD Aucas", contract:"2026", value:"€400K", slug:"andres-mena", nation:"Ecuador", img:"../HSM_Photo/Andres_Mena.jpg" },
+  { name:"Rommel Cabezas", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:25, club:"CD El Nacional", contract:"2026", value:"€350K", slug:"rommel-cabezas", nation:"Ecuador", img:null },
+  { name:"Freddy Mina", pos:"Extremo derecho", posKey:"extremo", posEN:"Right Winger", age:27, club:"Mushuc Runa SC", contract:"2026", value:"€250K", slug:"freddy-mina", nation:"Ecuador", img:null },
+  { name:"Darwin Nazareno", pos:"Lateral derecho", posKey:"lateral", posEN:"Right Back", age:22, club:"CD Universidad Católica", contract:"—", value:"€250K", slug:"darwin-nazareno", nation:"Ecuador", img:"../HSM_Photo/Darwin_Nazareno.jpg" },
+  { name:"Piero Guzmán", pos:"Mediocentro ofensivo", posKey:"mediocentro", posEN:"Attacking Mid", age:22, club:"SD Aucas", contract:"2026", value:"€200K", slug:"piero-guzman", nation:"Ecuador", img:"../HSM_Photo/Piero_Guzman.jpg" },
+  { name:"Patricio Ramos", pos:"Delantero centro", posKey:"delantero", posEN:"Striker", age:22, club:"CD Macará", contract:"—", value:"€50K", slug:"patricio-ramos", nation:"Ecuador", img:null },
+  { name:"Cristopher Angulo", pos:"Lateral derecho", posKey:"lateral", posEN:"Right Back", age:25, club:"Mushuc Runa SC", contract:"2026", value:"€50K", slug:"cristopher-angulo", nation:"Ecuador", img:null },
+  { name:"Alessandro Guanoluisa", pos:"Centrocampista", posKey:"mediocentro", posEN:"Midfielder", age:22, club:"Club Tigrillos FC", contract:"—", value:"€50K", slug:"alessandro-guanoluisa", nation:"Ecuador", img:null },
+  { name:"Maikel Caicedo", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:21, club:"LDU Quito", contract:"—", value:"€50K", slug:"maikel-caicedo", nation:"Ecuador", img:"../HSM_Photo/Maikel_Caicedo.jpg" },
+  { name:"Matías Cabeza", pos:"Delantero centro", posKey:"delantero", posEN:"Striker", age:20, club:"CD Macará", contract:"—", value:"€25K", slug:"matias-cabeza", nation:"Ecuador", img:null },
+  { name:"Patrick Ortíz", pos:"Defensa central", posKey:"defensa", posEN:"Centre Back", age:20, club:"LDU Quito", contract:"—", value:"—", slug:"patrick-ortiz", nation:"Ecuador", img:"../HSM_Photo/Patrick_Ortiz.jpg" },
+  { name:"Jandry Calle", pos:"Mediocentro ofensivo", posKey:"mediocentro", posEN:"Attacking Mid", age:16, club:"LDU Quito", contract:"—", value:"—", slug:"jandry-calle", nation:"Ecuador", img:"../HSM_Photo/Jandry_Calle.jpg" },
 ];
 
 let currentLang = 'en';
@@ -210,10 +210,7 @@ function renderPlayers(filter) {
   const filtered = filter === 'all' ? players : players.filter(p => p.posKey === filter);
   grid.innerHTML = filtered.map((p, i) => `
     <div class="player-card reveal" style="transition-delay:${(i%4)*0.07}s">
-      <div class="img-placeholder">
-        <i class="fas fa-user"></i>
-        <span>${p.name.split(' ')[0].toUpperCase()}</span>
-      </div>
+      ${p.img ? `<img src="${p.img}" alt="${p.name}">` : `<div class="img-placeholder"><i class="fas fa-user"></i><span>${p.name.split(' ')[0].toUpperCase()}</span></div>`}
       <div class="player-card-overlay"></div>
       <span class="player-card-value">${p.value}</span>
       <span class="player-card-age">${p.age}</span>
