@@ -57,7 +57,7 @@
   .page-title span{color:var(--cyan);}
 
   /* FILTERS */
-  .filters-bar{background:var(--bg2);border-bottom:1px solid var(--bg3);padding:20px 0;position:sticky;top:80px;z-index:50;}
+  .filters-bar{background:var(--bg2);border-bottom:1px solid var(--bg3);padding:20px 0;position:sticky;top:80px;z-index:50;transition:top 0.35s ease;}
   .filters-inner{max-width:1400px;margin:0 auto;padding:0 32px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
   .filter-btn{background:transparent;border:1px solid var(--bg3);color:var(--text-muted);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:8px 18px;border-radius:4px;cursor:pointer;transition:all 0.2s;font-family:'Manrope',sans-serif;}
   .filter-btn:hover,.filter-btn.active{background:var(--cyan);border-color:var(--cyan);color:#000;}
@@ -66,7 +66,7 @@
   /* PLAYER GRID */
   .players-section{padding:80px 0 120px;}
   .players-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-  .player-card{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:all 0.35s ease;aspect-ratio:2/3;}
+  .player-card{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:all 0.35s ease;aspect-ratio:2/3;display:block;text-decoration:none;color:inherit;}
   .player-card:hover{border-color:var(--cyan);transform:translateY(-6px);box-shadow:0 20px 50px rgba(32,214,255,0.2);}
   .player-card img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:filter 0.4s;}
   .player-card:hover img{filter:grayscale(0%);}
@@ -209,7 +209,7 @@ function renderPlayers(filter) {
   const grid = document.getElementById('playersGrid');
   const filtered = filter === 'all' ? players : players.filter(p => p.posKey === filter);
   grid.innerHTML = filtered.map((p, i) => `
-    <div class="player-card reveal" style="transition-delay:${(i%4)*0.07}s">
+    <a href="players/${p.slug}.html" class="player-card reveal" style="transition-delay:${(i%4)*0.07}s">
       ${p.img ? `<img src="${p.img}" alt="${p.name}">` : `<div class="img-placeholder"><i class="fas fa-user"></i><span>${p.name.split(' ')[0].toUpperCase()}</span></div>`}
       <div class="player-card-overlay"></div>
       <span class="player-card-value">${p.value}</span>
@@ -219,8 +219,8 @@ function renderPlayers(filter) {
         <div class="player-card-name">${p.name}</div>
         <div class="player-card-club">${p.club} · ${p.nation}</div>
       </div>
-      <a href="players/${p.slug}.html" class="player-view-btn">${currentLang === 'es' ? 'Ver Perfil' : 'View Profile'}</a>
-    </div>
+      <span class="player-view-btn">${currentLang === 'es' ? 'Ver Perfil' : 'View Profile'}</span>
+    </a>
   `).join('');
   // Re-observe
   document.querySelectorAll('.player-card.reveal').forEach(el => revealObserver.observe(el));
@@ -255,9 +255,16 @@ document.querySelectorAll('#langToggle,#langToggleMobile').forEach(btn => {
 
 let lastScroll = 0;
 const navbar = document.getElementById('navbar');
+const filtersBar = document.querySelector('.filters-bar');
 window.addEventListener('scroll', () => {
   const cur = window.scrollY;
-  if(cur > lastScroll && cur > 200) navbar.classList.add('hide'); else navbar.classList.remove('hide');
+  if(cur > lastScroll && cur > 200) {
+    navbar.classList.add('hide');
+    filtersBar.style.top = '0';
+  } else {
+    navbar.classList.remove('hide');
+    filtersBar.style.top = '80px';
+  }
   lastScroll = cur;
 }, {passive:true});
 
